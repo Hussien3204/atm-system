@@ -1,0 +1,9 @@
+# Compiled binaries and object files
+*.exe
+*.o
+*.out
+build/
+
+# Runtime & temporary test data
+data/*.tmp
+tests/*.txt
