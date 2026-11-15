@@ -55,6 +55,24 @@ static bool deserializeClient(const std::string& line, Models::Client& outClient
     }
 }
 
+// Algorithm: Construct a populated Client POD instance explicitly for strict C++11 compatibility.
+// Complexity: Time O(1), Space O(1).
+static Models::Client makeSeedClient(const std::string& accountNumber,
+                                     const std::string& pinCode,
+                                     const std::string& fullName,
+                                     const std::string& phone,
+                                     double balance) {
+    Models::Client client;
+    client.accountNumber = accountNumber;
+    client.pinCode = pinCode;
+    client.fullName = fullName;
+    client.phone = phone;
+    client.balance = balance;
+    client.failedPinAttempts = 0;
+    client.isLocked = false;
+    return client;
+}
+
 // Algorithm: Atomic write-replace — write all records to a .tmp file under RAII, verify stream health, then replace target.
 // Complexity: Time O(N * L), Space O(L) auxiliary memory where N is client count.
 bool saveAllClients(const std::vector<Models::Client>& clients, const std::string& filePath) {
@@ -107,16 +125,16 @@ bool ensureSeedData(const std::string& filePath) {
         }
     }
 
-    const std::vector<Models::Client> seedClients = {
-        {"A101", "1234", "Hussien Al-Ahmad", "0991112233", 5000.00, 0, false},
-        {"A102", "4321", "Sara Mahmoud", "0992223344", 12500.50, 0, false},
-        {"A103", "0000", "Khaled Mansour", "0993334455", 350.00, 0, false}
-    };
+    std::vector<Models::Client> seedClients;
+    seedClients.reserve(3);
+    seedClients.push_back(makeSeedClient("A101", "1234", "Hussien Al-Ahmad", "0991112233", 5000.00));
+    seedClients.push_back(makeSeedClient("A102", "4321", "Sara Mahmoud", "0992223344", 12500.50));
+    seedClients.push_back(makeSeedClient("A103", "0000", "Khaled Mansour", "0993334455", 350.00));
     return saveAllClients(seedClients, filePath);
 }
 
 // Algorithm: Stream file line-by-line with early exit on match without loading entire dataset into RAM.
-// Complexity: Time O(N * L) worst-case / O(L) best-case, Space O(L) constant single-record memory!
+// Complexity: Time O(N * L) worst-case / O(L) best-case, Space O(L) constant single-record memory.
 bool findClientByAccount(const std::string& accountNumber,
                          Models::Client& outClient,
                          const std::string& filePath) {
