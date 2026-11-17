@@ -7,3 +7,6 @@ build/
 # Runtime & temporary test data
 data/*.tmp
 tests/*.txt
+
+bin/
+data/*.txt
