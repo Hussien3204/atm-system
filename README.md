@@ -1,12 +1,23 @@
 # ATM Kiosk System (v1.0.0)
 
-![Standard](https://shields.io)
-![Architecture](https://shields.io)
-![Layout](https://shields.io)
-![Safety](https://shields.io)
+`C++11` • `Procedural MVC` • `Pitchfork Layout (PFL)` • `-Wall -Wextra -Werror -Wconversion`
 
 A production-grade, fault-tolerant Automated Teller Machine (ATM) terminal system engineered in strict **C++11**. Built from the ground up following the **Pitchfork Layout (PFL)** and **Procedural MVC** architecture—enforcing **Zero OOP**, **Zero Global State**, and **Zero Mutual Recursion**.
 
+---
+
+## Live Terminal Preview
+
+### 1. Authenticated Main Menu
+![Authenticated Main Menu](docs/screenshots/01-main-menu.png)
+
+### 2. Atomic Cash Withdrawal & Instant Balance Sync
+![Atomic Cash Withdrawal](docs/screenshots/02-withdrawal-success.png)
+
+### 3. Persistent 3-Strike Security Card Lockout
+![3-Strike Card Lockout](docs/screenshots/03-card-lockout.png)
+
+---
 ---
 
 ## Key Engineering & Security Highlights
